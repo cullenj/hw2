@@ -25,6 +25,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4B97452D19F5C3170098666D /* Astar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Astar.h; sourceTree = "<group>"; };
+		4B97452E19F5C31F0098666D /* Astarbeam.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Astarbeam.h; sourceTree = "<group>"; };
+		4B97452F19F5C3280098666D /* EQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQ.h; sourceTree = "<group>"; };
+		4B97453019F5C33A0098666D /* WGC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WGC.h; sourceTree = "<group>"; };
+		4B97453119F5C3540098666D /* MB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MB.h; sourceTree = "<group>"; };
 		73EA80DC19F5BF6B00105D06 /* AIHomework2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AIHomework2; sourceTree = BUILT_PRODUCTS_DIR; };
 		73EA80DF19F5BF6B00105D06 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		73EA80E119F5BF6B00105D06 /* AIHomework2.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = AIHomework2.1; sourceTree = "<group>"; };
@@ -62,6 +67,11 @@
 			children = (
 				73EA80DF19F5BF6B00105D06 /* main.cpp */,
 				73EA80E119F5BF6B00105D06 /* AIHomework2.1 */,
+				4B97452D19F5C3170098666D /* Astar.h */,
+				4B97452E19F5C31F0098666D /* Astarbeam.h */,
+				4B97452F19F5C3280098666D /* EQ.h */,
+				4B97453019F5C33A0098666D /* WGC.h */,
+				4B97453119F5C3540098666D /* MB.h */,
 			);
 			path = AIHomework2;
 			sourceTree = "<group>";
@@ -227,6 +237,7 @@
 				73EA80E719F5BF6B00105D06 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -7,15 +7,17 @@
 //
 
 #include <iostream>
+#include "EQ.h"
+#include "Astar.h"
 
 using namespace std;
 
 
 int main(int argc, const char * argv[])
 {
-
-    // insert code here...
-    std::cout << "Hello, World!\n";
+    EQ problem;
+    Astar<EQ> search;
+    search.search(problem);
     return 0;
 }
 
