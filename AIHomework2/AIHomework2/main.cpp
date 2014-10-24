@@ -9,15 +9,17 @@
 #include <iostream>
 #include "EQ.h"
 #include "Astar.h"
+#include "WGC.h"
 
 using namespace std;
 
 
 int main(int argc, const char * argv[])
 {
+    WGC test;
     EQ problem;
-    Astar<EQ> search;
-    search.search(problem);
+    Astar<EQ> Asearch;
+    Asearch.search(problem);
     return 0;
 }
 

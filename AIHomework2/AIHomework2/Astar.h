@@ -26,16 +26,11 @@ private:
         int g;
         int h;
         T state;
-        Node() {  }
+        //Node() {  }
         Node(T& x) {
             state = x;
             h = x.h();
         }
-        
-        bool operator<(Node a) {
-            return h + g < a.h + a.g;
-        }
-        
     };
     
     class CompareNodes {
