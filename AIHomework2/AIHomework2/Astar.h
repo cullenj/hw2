@@ -36,7 +36,7 @@ private:
     class CompareNodes {
     public:
         bool operator()(Node& a, Node& b) {
-            return a.h + a.g < b.h + b.g;
+            return a.h + a.g > b.h + b.g;
         }
     };
     
