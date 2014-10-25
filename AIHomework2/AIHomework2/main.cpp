@@ -22,8 +22,8 @@ int main(int argc, const char * argv[])
     MB room;
     Astar<MB> MBsearch;
     MBsearch.search(room);
-    //Astar<EQ> EQsearch;
-    //EQsearch.search(problem);
+    /*Astar<EQ> EQsearch;
+    EQsearch.search(problem);*/
     return 0;
 }
 

@@ -22,6 +22,7 @@ public:
     vector<int> board;
     int n;
     string domain = "EQ ";
+    string action = "\n";
     
     EQ(){
         n=8;
@@ -65,13 +66,13 @@ public:
     
     vector<EQ> successors() {
         vector<EQ> successors;
-        EQ *successor;
+        EQ successor;
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < n; j++) {
                 if(board[i] != j) {
-                    successor = new EQ(board);
-                    successor->move(i,j);
-                    successors.push_back(*successor);
+                    successor = EQ(board);
+                    successor.move(i,j);
+                    successors.push_back(successor);
                 }
             }
         }
@@ -79,8 +80,8 @@ public:
     }
     
     void print(){
-        for(int j=0; j<n; j++){
-            for (int i=0; i<n; i++){
+        for(int i=0; i<n; i++){
+            for (int j=0; j<n; j++){
                 if (i==board[j]){
                     cout << "X ";
                 } else {
@@ -89,7 +90,7 @@ public:
             }
             cout << endl;
         }
-        for(int i=0; i<board.size();i++) {
+        for(int i=0; i<n;i++) {
             cout << board[i] << " ";
         }
         cout << "\n\n";
@@ -103,29 +104,31 @@ public:
     long hashkey() {
         long hash = 0;
         for(int i = 0; i < board.size(); i++ ) {
-            hash = board[i]*pow(10,i);
+            hash = hash + (board[i]+1)*pow(10,i);
         }
         return hash;
     }
     
     int collisions() {
         int x = 0;
-        for (int queen_pos=0; queen_pos < n; queen_pos++){
-            for (int k=0; k < n;k++){
-                if (queen_pos == board[k]) {x++; break;} //same row?
-                else if ((board[k]-k)==(queen_pos-board.size())) {x++; break;} //down diagonal?
-                else if ( board[k] - queen_pos == board.size()-k ) {x++; break;} //up diagonal?
+        for (int i=0; i < n;i++){
+            for (int k=i+1; k < n;k++){
+                if(k != i) {
+                    if (board[i] == board[k]) {x++; } //same row?
+                    else if ((board[k] - k) == (board[i] - i)) {x++; } //down diagonal?
+                    else if ( board[k] - board[i] == i - k ) {x++; } //up diagonal?
+                }
             }
         }
         return x;
     }
     
     int cost() {
-        return 1;
+        return 0;
     }
     
     int h() {
-        return 8 - collisions();
+        return collisions();
     }
     
 };

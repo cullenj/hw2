@@ -168,7 +168,12 @@ public:
     
     void solution(list<MB> path) {
         cout << endl << "Length of Soln. Path: " << path.size() +1 << endl;
-        (--path.end())->print();
+        list<MB>::iterator itr = path.begin();
+        itr++;
+        while(itr != path.end()) {
+            cout << itr->action << "\n";
+            itr++;
+        }
     }
     
     int cost() {
