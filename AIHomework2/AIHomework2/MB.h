@@ -136,12 +136,21 @@ public:
             successors.push_back(room);
         }
         
+        
+        
         return successors;
     }
     
     void print(){
-        cout << "no print yet" << endl;
-        
+        cout << "Monkey is at: " << monkey.location << endl;
+        cout << "on chair: " << monkey.on_chair << endl;
+        cout << "holding chair: " << monkey.hold_chair << endl;
+        cout << "holding stick: " << monkey.hold_stick << endl;
+        cout << "holding bananas: " << monkey.hold_bananas << endl;
+        cout << "bananas are at: " << bananas.location << " and hanging: " << bananas.hanging << endl;
+        cout << "chair is at: " << chair << endl;
+        cout << "stick is at: " << stick << endl;
+        cout << "------------------------" << endl;
     }
     
     void solution(list<MB> path) {
@@ -157,12 +166,10 @@ public:
         return 1;
     }
     
-    // not finished!
     long hashkey() {
         long hash = 0;
-        for(int i = 0; i < 4; i++ ) {
-            hash = monkey.location*pow(10,i);
-        }
+        hash=monkey.location+monkey.on_chair+monkey.hold_bananas+monkey.hold_chair
+        +monkey.hold_stick+chair+stick+bananas.location+bananas.hanging;
         return hash;
     }
     

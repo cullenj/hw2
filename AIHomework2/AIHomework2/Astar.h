@@ -26,7 +26,7 @@ private:
         int g;
         int h;
         T state;
-        //Node() {  }
+        Node() {  }
         Node(T& x) {
             state = x;
             h = x.h();
@@ -80,7 +80,6 @@ public:
             
             vector<T> successors = mostpromising.state.successors();
             for(int i = 0; i < successors.size(); i++) {
-                
                 Node successor = Node(successors[i]);
                 if (!explored[successor.state.hashkey()]) {
                     successor.g = mostpromising.g + successor.state.cost();
