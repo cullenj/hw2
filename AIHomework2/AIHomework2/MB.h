@@ -92,7 +92,7 @@ public:
     vector<MB> successors() {
         vector<MB> successors;
     //generate monkey moves
-        for (unsigned i=0;i<4; i++){
+        for (unsigned i=1;i<=4; i++){
             MB room(i,bananas.location,chair,stick,monkey.hold_bananas,
                 monkey.hold_chair,monkey.hold_stick,monkey.on_chair,bananas.hanging);
             successors.push_back(room);
@@ -163,13 +163,27 @@ public:
     }
     
     int h() {
-        return 1;
+        int c=8;
+        if (chair==bananas.location) {
+            c=c-4;
+            if(monkey.hold_stick) {
+                c=c-2;
+                if(monkey.location==bananas.location) {
+                    c--;
+                    if(monkey.hold_bananas) {
+                        c--;
+                    }
+                }
+            }
+        }
+        return c;
     }
     
     long hashkey() {
         long hash = 0;
-        hash=monkey.location+monkey.on_chair+monkey.hold_bananas+monkey.hold_chair
-        +monkey.hold_stick+chair+stick+bananas.location+bananas.hanging;
+        hash=monkey.location+monkey.on_chair*pow(10,1)+monkey.hold_bananas*pow(10,2)+
+        monkey.hold_chair*pow(10,3)+monkey.hold_stick*pow(10,4)+chair*pow(10,5)+
+        stick+bananas.location*pow(10,6)+bananas.hanging*pow(10,7);
         return hash;
     }
     
