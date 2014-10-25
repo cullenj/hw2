@@ -9,6 +9,7 @@
 #include <iostream>
 #include "EQ.h"
 #include "Astar.h"
+#include "Astarbeam.h"
 #include "WGC.h"
 #include "MB.h"
 
@@ -22,8 +23,18 @@ int main(int argc, const char * argv[])
     MB room;
     Astar<MB> MBsearch;
     MBsearch.search(room);
-    /*Astar<EQ> EQsearch;
-    EQsearch.search(problem);*/
+    Astarbeam<MB> BeamMBsearch;
+    BeamMBsearch.setbeamwidth(5);
+    BeamMBsearch.search(room);
+    
+    /*
+    Astarbeam<EQ> EQsearch;
+    EQsearch.setbeamwidth(3);
+    EQsearch.search(problem);
+    Astar<EQ> otherEQsearch;
+    otherEQsearch.search(problem);
+    */
+    
     return 0;
 }
 

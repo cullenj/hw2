@@ -29,7 +29,7 @@ private:
         Node() {  }
         Node(T& x) {
             state = x;
-            x.print();
+            //x.print();
             h = x.h();
         }
     };

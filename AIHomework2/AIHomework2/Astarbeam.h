@@ -9,6 +9,9 @@
 #ifndef AIHomework2_Astarbeam_h
 #define AIHomework2_Astarbeam_h
 
+#include <unordered_map>
+#include <vector>
+
 using namespace std;
 template <class T>
 
@@ -25,20 +28,22 @@ private:
         Node() {  }
         Node(T& x) {
             state = x;
-            x.print();
+            //x.print();
             h = x.h();
         }
     };
     
     bool over;
-    Vecto fringe;
+    vector<Node> fringe;
     unordered_map <long,bool> explored;
     long nodeslookedat;
     int beamwidth;
+    int HUpperBound;
     
 public:
     
     Astarbeam() {
+        HUpperBound = 0;
         over = false;
         nodeslookedat = 0;
         beamwidth = 0;
@@ -48,7 +53,7 @@ public:
         
     }
     
-    void beamwidth(int x) {
+    void setbeamwidth(int x) {
         beamwidth = x;
     }
     
@@ -56,8 +61,7 @@ public:
         Node start = Node(problem);
         start.parent = &start;
         start.g = 0;
-        fringe.push(start);
-        HUpperBound.push(start);
+        fringe.push_back(start);
         nodeslookedat++;
         explored[problem.hashkey()] = true;
         while(!over) {
@@ -77,10 +81,7 @@ public:
         }
         
         else {
-            T temp = fringe.top().state;
-            Node* mostpromising = new Node(temp);
-            mostpromising->parent = fringe.top().parent;
-            fringe.pop();
+            Node* mostpromising = getcurrentbest();
             
             if(mostpromising->h == 0) {
                 over = true;
@@ -92,12 +93,11 @@ public:
             for(int i = 0; i < successors.size(); i++) {
                 Node *successor = new Node(successors[i]);
                 if (!explored[successor->state.hashkey()]) {
-                    nodeslookedat++;
                     successor->g = mostpromising->g + successor->state.cost();
                     successor->parent = mostpromising;
-                    if (valid()) {
-                        fringe.push(*successor);
-                        HUpperBound.push(*successor);
+                    if (valid(successor->h)) {
+                        nodeslookedat++;
+                        fringe.push_back(*successor);
                         explored[successor->state.hashkey()] = true;
                     }
                 }
@@ -108,11 +108,37 @@ public:
     
     bool valid(int h) {
         if (fringe.size() < beamwidth) {
+            if (h > fringe[HUpperBound].h) {
+                HUpperBound = (int) fringe.size() - 1;
+            }
             return true;
         }
-        else {
-            if(h < HUpperBound.)
+        else if(h < fringe[HUpperBound].h) {
+            fringe.erase( fringe.begin() + HUpperBound );
+            HUpperBound = 0;
+            for(int i = 0; i < fringe.size(); i++) {
+                if (fringe[i].h > fringe[HUpperBound].h)
+                    HUpperBound = i;
+            }
+            if (h > fringe[HUpperBound].h)
+                HUpperBound = (int) fringe.size();
+            return true;
         }
+        else
+            return false;
+    }
+    
+    Node* getcurrentbest() {
+        int currentlowest = 0;
+        for(int i = 0; i < fringe.size(); i++) {
+            if (fringe[i].h < fringe[currentlowest].h)
+                currentlowest = i;
+        }
+        Node* best = new Node(fringe[currentlowest].state);
+        best->parent = fringe[currentlowest].parent;
+        best->g = fringe[currentlowest].g;
+        fringe.erase(fringe.begin() + currentlowest);
+        return best;
     }
     
     void printsolution(Node* solution) {
