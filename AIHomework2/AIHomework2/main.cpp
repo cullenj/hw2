@@ -20,8 +20,8 @@ int main(int argc, const char * argv[])
     WGC test;
     EQ problem;
     MB room;
-    Astar<EQ> MBsearch;
-    MBsearch.search(problem);
+    Astar<MB> MBsearch;
+    MBsearch.search(room);
     //Astar<EQ> EQsearch;
     //EQsearch.search(problem);
     return 0;

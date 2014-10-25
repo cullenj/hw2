@@ -40,6 +40,7 @@ public:
     fruit bananas = *new fruit();
     
     string domain="MB ";
+    string action;
     
     MB()
     {
@@ -52,10 +53,11 @@ public:
         bananas.location=4;
         chair = 2;
         stick = 3;
+        action="Start:";
     }
     
     MB(unsigned m_loc,unsigned b_loc,unsigned c_loc,unsigned s_loc,
-       bool hb, bool hc, bool hs, bool on, bool hang)
+       bool hb, bool hc, bool hs, bool on, bool hang, string act)
     {
         monkey.hold_bananas=hb;
         monkey.hold_chair=hc;
@@ -66,10 +68,12 @@ public:
         bananas.location=b_loc;
         chair = c_loc;
         stick = s_loc;
+        action=act;
     }
   
     bool operator==(const MB& other) {
-        if(other.monkey.hold_bananas==monkey.hold_bananas &&
+        if(other.monkey.location==monkey.location &&
+           other.monkey.hold_bananas==monkey.hold_bananas &&
            other.monkey.hold_chair==monkey.hold_chair &&
            other.monkey.hold_stick==monkey.hold_stick &&
            other.monkey.on_chair==monkey.on_chair &&
@@ -93,50 +97,59 @@ public:
         vector<MB> successors;
     //generate monkey moves
         for (unsigned i=1;i<=4; i++){
-            MB room(i,bananas.location,chair,stick,monkey.hold_bananas,
-                monkey.hold_chair,monkey.hold_stick,monkey.on_chair,bananas.hanging);
-            successors.push_back(room);
+            if (monkey.hold_stick){
+                
+                MB room(i,bananas.location,chair,i,monkey.hold_bananas,
+                        monkey.hold_chair,monkey.hold_stick,monkey.on_chair,bananas.hanging,"move to "+to_string(i)+":");
+                successors.push_back(room);
+            } else if (monkey.hold_chair){
+                MB room(i,bananas.location,i,stick,monkey.hold_bananas,
+                        monkey.hold_chair,monkey.hold_stick,monkey.on_chair,bananas.hanging,"move to "+to_string(i)+":");
+                successors.push_back(room);
+            } else{
+                MB room(i,bananas.location,chair,stick,monkey.hold_bananas,
+                        monkey.hold_chair,monkey.hold_stick,monkey.on_chair,bananas.hanging,"move to "+to_string(i)+":");
+                successors.push_back(room);
+            }
         }
     //generate monkey grabs
         if (monkey.location==stick && !monkey.hold_stick){
             MB room(monkey.location,bananas.location,chair,stick,monkey.hold_bananas,
-                    monkey.hold_chair,true,monkey.on_chair,bananas.hanging);
+                    monkey.hold_chair,true,monkey.on_chair,bananas.hanging,"grab stick:");
             successors.push_back(room);
         }
      
         if (monkey.location==chair && !monkey.hold_chair){
             MB room(monkey.location,bananas.location,chair,stick,monkey.hold_bananas,
-                    true,monkey.hold_stick,monkey.on_chair,bananas.hanging);
+                    true,monkey.hold_stick,monkey.on_chair,bananas.hanging,"grab chair");
             successors.push_back(room);
         }
 
         if (monkey.location==bananas.location && monkey.on_chair && monkey.hold_stick){
             MB room(monkey.location,bananas.location,chair,stick,true,
-                    monkey.hold_chair,monkey.hold_chair,monkey.on_chair,bananas.hanging);
+                    monkey.hold_chair,monkey.hold_chair,monkey.on_chair,!bananas.hanging,"hold bananas:");
             successors.push_back(room);
         }
     //generate monkey drops
 
         if (monkey.location==stick && monkey.hold_stick){
             MB room(monkey.location,bananas.location,chair,monkey.location,monkey.hold_bananas,
-                    monkey.hold_chair,false,monkey.on_chair,bananas.hanging);
+                    monkey.hold_chair,false,monkey.on_chair,bananas.hanging,"drop stick:");
             successors.push_back(room);
         }
         
         if (monkey.location==chair && monkey.hold_chair){
             MB room(monkey.location,bananas.location,monkey.location,stick,monkey.hold_bananas,
-                    false,monkey.hold_stick,monkey.on_chair,bananas.hanging);
+                    false,monkey.hold_stick,monkey.on_chair,bananas.hanging,"drop chair:");
             successors.push_back(room);
         }
         
     //generate monkey on chair
         if (monkey.location==chair && !monkey.hold_chair){
             MB room(monkey.location,bananas.location,chair,stick,monkey.hold_bananas,
-                    monkey.hold_chair,monkey.hold_stick,true,bananas.hanging);
+                    monkey.hold_chair,monkey.hold_stick,true,bananas.hanging,"move onto chair:");
             successors.push_back(room);
         }
-        
-        
         
         return successors;
     }
@@ -186,6 +199,8 @@ public:
         stick+bananas.location*pow(10,6)+bananas.hanging*pow(10,7);
         return hash;
     }
+    
+    
     
 };
 

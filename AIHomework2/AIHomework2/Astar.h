@@ -66,44 +66,55 @@ public:
         while(!over) {
             expand();
         }
+        
     }
     
-    void expand() {
+    int expand() {
         if(fringe.empty()) {
             over = true;
+            return -1;
+        }
+        
+        if(over) {
+            return 0;
         }
         
         else {
             Node mostpromising = fringe.top();
-            mostpromising.state.print();
+            //mostpromising.state.print();
             fringe.pop();
             
             if(mostpromising.h == 0) {
                 over = true;
+                printsolution(&mostpromising);
+                return 1;
             }
             
             vector<T> successors = mostpromising.state.successors();
             for(int i = 0; i < successors.size(); i++) {
-                Node successor = Node(successors[i]);
-                if (!explored[successor.state.hashkey()]) {
-                    nodeslookedat++;
-                    successor.g = mostpromising.g + successor.state.cost();
-                    successor.parent = &mostpromising; 
-                    fringe.push(successor);
-                    explored[successor.state.hashkey()] = true;
+                Node *successor = new Node(successors[i]);
+                if(successor->state != mostpromising.state && successor->state != mostpromising.parent->state) {
+                    if (!explored[successor->state.hashkey()]) {
+                        nodeslookedat++;
+                        successor->g = mostpromising.g + successor->state.cost();
+                        successor->parent = &mostpromising;
+                        fringe.push(*successor);
+                        explored[successor->state.hashkey()] = true;
+                    }
                 }
-                
             }
         }
+        return 0;
     }
     
     void printsolution(Node* solution) {
         cout << "Solution Found!\n";
-        cout << "Number of nodes expanded: " << nodeslookedat << "\n\n";
+        cout << "Number of nodes expanded: " << nodeslookedat << "\n";
         list<T> solutionpath;
-        while(solution->previous != solution) {
+        while(solution->parent->state != solution->state) {
             solutionpath.push_front(solution->state);
             solution = solution->parent;
+            cout << solution->state.action;
         }
         solutionpath.push_front(solution->state);
         solution->state.solution(solutionpath);
