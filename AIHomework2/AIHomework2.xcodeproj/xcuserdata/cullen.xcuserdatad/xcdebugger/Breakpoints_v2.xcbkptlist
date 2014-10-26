@@ -10,13 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AIHomework2/WGC.h"
-            timestampString = "435859807.218358"
+            timestampString = "436040114.876092"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
-            landmarkName = "class WGC"
-            landmarkType = "3">
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "successors()"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -58,11 +58,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AIHomework2/main.cpp"
-            timestampString = "435873400.759366"
+            timestampString = "436039896.824904"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29">
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "main(int argc, const char * argv[])"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -100,7 +102,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AIHomework2/Astar.h"
@@ -159,6 +161,22 @@
             endingLineNumber = "100"
             landmarkName = "expand()"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AIHomework2/main.cpp"
+            timestampString = "436039879.053281"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "main(int argc, const char * argv[])"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

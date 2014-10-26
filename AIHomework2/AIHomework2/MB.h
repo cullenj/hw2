@@ -119,9 +119,9 @@ public:
             successors.push_back(room);
         }
      
-        if (monkey.location==chair && !monkey.hold_chair){
+        if (monkey.location==chair && !monkey.hold_chair && !monkey.on_chair){
             MB room(monkey.location,bananas.location,chair,stick,monkey.hold_bananas,
-                    true,monkey.hold_stick,monkey.on_chair,bananas.hanging,"grab chair");
+                    true,monkey.hold_stick,monkey.on_chair,bananas.hanging,"grab chair: ");
             successors.push_back(room);
         }
 
@@ -179,7 +179,7 @@ public:
     int cost() {
         return 1;
     }
-    
+
     int h() {
         int c=8;
         if (chair==bananas.location) {
@@ -196,6 +196,7 @@ public:
         }
         return c;
     }
+
     
     long hashkey() {
         long hash = 0;

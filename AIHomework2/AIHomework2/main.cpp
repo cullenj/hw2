@@ -19,13 +19,18 @@ using namespace std;
 int main(int argc, const char * argv[])
 {
     WGC test;
+    /*
     EQ problem;
     MB room;
     Astar<MB> MBsearch;
     MBsearch.search(room);
-    Astarbeam<MB> BeamMBsearch;
+    Astarbeam<MB> BeamMBsearch
     BeamMBsearch.setbeamwidth(5);
     BeamMBsearch.search(room);
+     
+    */
+    Astar<WGC> WGCsearch;
+    WGCsearch.search(test);
     
     /*
     Astarbeam<EQ> EQsearch;
