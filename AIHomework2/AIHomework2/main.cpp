@@ -12,25 +12,28 @@
 #include "Astarbeam.h"
 #include "WGC.h"
 #include "MB.h"
+#include "Hill_Climbing.h"
 
 using namespace std;
 
 
 int main(int argc, const char * argv[])
 {
-    WGC test;
-    /*
+//    WGC test;
     EQ problem;
-    MB room;
+/*    MB room;
     Astar<MB> MBsearch;
     MBsearch.search(room);
     Astarbeam<MB> BeamMBsearch
     BeamMBsearch.setbeamwidth(5);
     BeamMBsearch.search(room);
-     
-    */
-    Astar<WGC> WGCsearch;
-    WGCsearch.search(test);
+*/
+    
+    //Astar<WGC> WGCsearch;
+    //WGCsearch.search(test);
+    
+    Hill_Climbing<EQ> HCsearch;
+    HCsearch.search(problem);
     
     /*
     Astarbeam<EQ> EQsearch;
