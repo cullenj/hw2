@@ -19,29 +19,29 @@ using namespace std;
 
 class WGC {
 public:
-    vector<bool> items; //false means on the left bank
+    vector<bool> items; //LEFT means on the left bank
     string action;
+    bool LEFT = false;
+    bool RIGHT = true;
     
     WGC(){
-        items.push_back(false);  //wolf is on left bank
-        items.push_back(false);  //goat is on left bank
-        items.push_back(false);  //cabbage is on left bank
+        items.push_back(LEFT);  //wolf is on left bank
+        items.push_back(LEFT);  //goat is on left bank
+        items.push_back(LEFT);  //cabbage is on left bank
+        items.push_back(LEFT); //boat is on left bank
         action="start: ";
     }
     
-    WGC(bool w,bool g, bool c,string act){
+    WGC(bool w,bool g, bool c, bool b, string act){
         items.push_back(w);
         items.push_back(g);
         items.push_back(c);
+        items.push_back(b);
         action=act;
     }
     
     bool operator==(const WGC& other){
-        if (other.items[0]==items[0] && other.items[1]==items[1] && other.items[2]==items[2]){
-            return true;
-        } else{
-            return false;
-        }
+        return (other.items[0]==items[0] && other.items[1]==items[1] && other.items[2]==items[2] && other.items[3] == items[3]);
     }
     
     bool operator!=(const WGC& other) {
@@ -49,8 +49,8 @@ public:
     }
     
     bool goal(){
-        if(items[0]==items[1]==items[2]==true) {return true;}
-        else {return false;}
+        if(items[0]==items[1]==items[2]==items[3]==RIGHT) {return RIGHT;}
+        else {return LEFT;}
     }
 
     vector<WGC> successors(){
@@ -58,15 +58,17 @@ public:
         bool w=items[0];
         bool g=items[1];
         bool c=items[2];
+        bool b=items[3];
+        
+        if(valid()) {
         //move wolf
-        if (c!=g){
-            successors.push_back(WGC(!w,g,c,"move wolf"));
-        }
+        successors.push_back(WGC(!w,g,c,!b,"move wolf "));
         //move goat
-        successors.push_back(WGC(w,!g,c,"move goat"));
+        successors.push_back(WGC(w,!g,c,!b,"move goat "));
         //move cabbage
-        if (g!=w){
-            successors.push_back(WGC(w,g,!c,"move cabbage"));
+        successors.push_back(WGC(w,g,!c,!b,"move cabbage "));
+        //move boat
+        successors.push_back(WGC(w,g,c,!b,"move boat "));
         }
         return successors;
     }
@@ -87,17 +89,35 @@ public:
         }
     }
     
+    bool valid() {
+        bool w=items[0];
+        bool g=items[1];
+        bool c=items[2];
+        bool b=items[3];
+        if (g==c && g != b) {
+            return false;
+        }
+        if (g==w && g!= b) {
+            return false;
+        }
+        return true;
+    }
+    
     int h(){
         int h=8;
         bool w=items[0];
         bool g=items[1];
         bool c=items[2];
-        if (w==true){
-            h=h-4;
-            if (g==true){
+        bool b=items[3];
+        if (w==RIGHT){
+            h=h-2;
+            if (g==RIGHT){
                 h=h-2;
-                if (c==true){
+                if (c==RIGHT){
                     h=h-2;
+                    if (b==RIGHT) {
+                        h=h-2;
+                    }
                 }
             }
         }
@@ -110,7 +130,7 @@ public:
     
     long hashkey(){
         long hash;
-        hash=items[0]+items[1]*pow(10,1)+items[2]*pow(10,3);
+        hash=items[0]+items[1]*pow(10,1)+items[2]*pow(10,3)+items[3]*pow(10,4);
         return hash;
     }
     

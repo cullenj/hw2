@@ -95,7 +95,7 @@ public:
                 if (!explored[successor->state.hashkey()]) {
                     successor->g = mostpromising->g + successor->state.cost();
                     successor->parent = mostpromising;
-                    if (valid(successor->h)) {
+                    if (valid(successor->h + successor->g)) {
                         nodeslookedat++;
                         fringe.push_back(*successor);
                         explored[successor->state.hashkey()] = true;
@@ -106,21 +106,21 @@ public:
         return 0;
     }
     
-    bool valid(int h) {
+    bool valid(int f) {
         if (fringe.size() < beamwidth) {
-            if (h > fringe[HUpperBound].h) {
+            if (f > fringe[HUpperBound].h + fringe[HUpperBound].g) {
                 HUpperBound = (int) fringe.size() - 1;
             }
             return true;
         }
-        else if(h < fringe[HUpperBound].h) {
+        else if(f < fringe[HUpperBound].h + fringe[HUpperBound].g) {
             fringe.erase( fringe.begin() + HUpperBound );
             HUpperBound = 0;
             for(int i = 0; i < fringe.size(); i++) {
-                if (fringe[i].h > fringe[HUpperBound].h)
+                if (fringe[i].h + fringe[i].g > fringe[HUpperBound].h + fringe[HUpperBound].g)
                     HUpperBound = i;
             }
-            if (h > fringe[HUpperBound].h)
+            if (f > fringe[HUpperBound].h + fringe[HUpperBound].g)
                 HUpperBound = (int) fringe.size();
             return true;
         }
