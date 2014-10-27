@@ -13,6 +13,9 @@
 #include <math.h>
 #include <vector>
 #include <list>
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -25,6 +28,7 @@ public:
     string action = "\n";
     
     EQ(){
+        srand(time(NULL));
         n=8;
         for(int i = 0; i < n; i++) {
             board.push_back(0);
@@ -34,6 +38,12 @@ public:
     EQ(vector<int> b) {
         board = b;
         n = 8;
+    }
+    
+    void random() {
+        for(int i = 0; i < n; i++) {
+            board[i] = rand() % 8;
+        }
     }
     
     bool operator==(const EQ& other) {
@@ -97,7 +107,7 @@ public:
     }
     
     void solution(list<EQ> path) {
-        cout << endl << "Length of Soln. Path: " << path.size() +1 << endl;
+        cout << endl << "Length of Soln. Path: " << path.size() - 1 << endl;
         (--path.end())->print();
     }
     
@@ -114,9 +124,9 @@ public:
         for (int i=0; i < n;i++){
             for (int k=i+1; k < n;k++){
                 if(k != i) {
-                    if (board[i] == board[k]) {x++; } //same row?
-                    else if ((board[k] - k) == (board[i] - i)) {x++; } //down diagonal?
-                    else if ( board[k] - board[i] == i - k ) {x++; } //up diagonal?
+                    if (board[i] == board[k]) {x++; break;} //same row?
+                    else if ((board[k] - k) == (board[i] - i)) {x++; break;} //down diagonal?
+                    else if ( board[k] - board[i] == i - k ) {x++; break;} //up diagonal?
                 }
             }
         }
@@ -130,6 +140,8 @@ public:
     int h() {
         return collisions();
     }
+    
+    
     
 };
 

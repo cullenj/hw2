@@ -19,14 +19,15 @@ class Hill_Climbing{
 public:
     
     T problem;
+    T previous;
     
     Hill_Climbing(){ }
 
-    void search(T problem){
-        
+    bool Search(T problem){
         if (problem.h()==0) {
+            cout << "Solution Found: " << endl;
             problem.print();
-            return;
+            return true;
         }
     
         T best = problem.successors()[0];
@@ -37,11 +38,17 @@ public:
             }
         }
         
+        if (previous == best) {
+            return false;
+        }
+        
         cout << "Best successor is: " << endl;
         problem.print();
         cout << endl;
         
-        search(best);
+        previous = problem;
+        
+        return Search(best);
     }
 
 };

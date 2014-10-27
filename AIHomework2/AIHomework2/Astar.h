@@ -29,7 +29,6 @@ private:
         Node() {  }
         Node(T& x) {
             state = x;
-            //x.print();
             h = x.h();
         }
     };
@@ -96,6 +95,7 @@ public:
             for(int i = 0; i < successors.size(); i++) {
                 Node *successor = new Node(successors[i]);
                 if (!explored[successor->state.hashkey()]) {
+                    successor->state.print();
                     nodeslookedat++;
                     successor->g = mostpromising->g + successor->state.cost();
                     successor->parent = mostpromising;
@@ -111,7 +111,7 @@ public:
         cout << "Solution Found!\n";
         cout << "Number of nodes expanded: " << nodeslookedat << "\n";
         list<T> solutionpath;
-        while(solution->parent != solution) {
+        while(solution->parent->state != solution->state) {
             solutionpath.push_front(solution->state);
             solution = solution->parent;
         }

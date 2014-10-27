@@ -13,6 +13,7 @@
 #include <iostream>
 #include <math.h>
 #include <vector>
+#include <limits>
 
 
 using namespace std;
@@ -62,11 +63,14 @@ public:
         
         if(valid()) {
         //move wolf
-        successors.push_back(WGC(!w,g,c,!b,"move wolf "));
+            if (b == w)
+                successors.push_back(WGC(!w,g,c,!b,"move wolf "));
         //move goat
-        successors.push_back(WGC(w,!g,c,!b,"move goat "));
+            if (b == g)
+                successors.push_back(WGC(w,!g,c,!b,"move goat "));
         //move cabbage
-        successors.push_back(WGC(w,g,!c,!b,"move cabbage "));
+            if (b == c)
+                successors.push_back(WGC(w,g,!c,!b,"move cabbage "));
         //move boat
         successors.push_back(WGC(w,g,c,!b,"move boat "));
         }
@@ -76,13 +80,13 @@ public:
     void print(){
         cout << "wolf is at "<< items[0] << endl;
         cout << "goat is at "<< items[1] << endl;
-        cout << "cabbage is at "<< items[2] << endl;
+        cout << "cabbage is at "<< items[2] << endl << endl;
+        
     }
     
     void solution(list<WGC> path) {
-        cout << endl << "Length of Soln. Path: " << path.size() +1 << endl;
+        cout << endl << "Length of Soln. Path: " << path.size() - 1 << endl;
         list<WGC>::iterator itr = path.begin();
-        itr++;
         while(itr != path.end()) {
             cout << itr->action << "\n";
             itr++;
@@ -103,26 +107,35 @@ public:
         return true;
     }
     
+    /*
     int h(){
-        int h=8;
         bool w=items[0];
         bool g=items[1];
         bool c=items[2];
-        bool b=items[3];
-        if (w==RIGHT){
-            h=h-2;
-            if (g==RIGHT){
-                h=h-2;
-                if (c==RIGHT){
-                    h=h-2;
-                    if (b==RIGHT) {
-                        h=h-2;
-                    }
-                }
-            }
+        return !w+!g+!c;
+    }*/
+    
+    
+    int h() {
+        bool w=items[0];
+        bool g=items[1];
+        bool c=items[2];
+        if ((w && !g && !c)||(!w && !g && c)) {
+            return 1;
         }
-        return h;
+        else
+            return 2*!w + !g + 2*!c;
     }
+    /*
+    int h() {
+        bool w=items[0];
+        bool g=items[1];
+        bool c=items[2];
+        if (w && g && c)
+            return 0;
+        else return 1;
+    }
+     */
     
     int cost(){
         return 1;

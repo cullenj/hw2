@@ -124,10 +124,14 @@ public:
                     true,monkey.hold_stick,monkey.on_chair,bananas.hanging,"grab chair: ");
             successors.push_back(room);
         }
-
-        if (monkey.location==bananas.location && monkey.on_chair && monkey.hold_stick){
+        if (monkey.location==bananas.location && monkey.on_chair && monkey.hold_stick && bananas.hanging){
+            MB room(monkey.location,bananas.location,chair,stick,monkey.hold_bananas,
+                    monkey.hold_chair,monkey.hold_stick,monkey.on_chair,!bananas.hanging,"knock down bananas:");
+            successors.push_back(room);
+        }
+        if (monkey.location==bananas.location && !bananas.hanging && !monkey.on_chair && !monkey.hold_stick && !monkey.hold_chair){
             MB room(monkey.location,bananas.location,chair,stick,true,
-                    monkey.hold_chair,monkey.hold_chair,monkey.on_chair,!bananas.hanging,"hold bananas:");
+                    monkey.hold_chair,monkey.hold_stick,monkey.on_chair,bananas.hanging,"pick up bananas:");
             successors.push_back(room);
         }
     //generate monkey drops
@@ -150,6 +154,12 @@ public:
                     monkey.hold_chair,monkey.hold_stick,true,bananas.hanging,"move onto chair:");
             successors.push_back(room);
         }
+    //monkey gets off of chair
+        if (monkey.location==chair && monkey.on_chair){
+            MB room(monkey.location,bananas.location,chair,stick,monkey.hold_bananas,
+                    monkey.hold_chair,monkey.hold_stick,false,bananas.hanging,"get off chair:");
+            successors.push_back(room);
+        }
         
         return successors;
     }
@@ -167,9 +177,8 @@ public:
     }
     
     void solution(list<MB> path) {
-        cout << endl << "Length of Soln. Path: " << path.size() +1 << endl;
+        cout << endl << "Length of Soln. Path: " << path.size() - 1 << endl;
         list<MB>::iterator itr = path.begin();
-        itr++;
         while(itr != path.end()) {
             cout << itr->action << "\n";
             itr++;
@@ -180,20 +189,47 @@ public:
         return 1;
     }
 
-    int h() {
-        int c=8;
-        if (chair==bananas.location) {
+    /*int h() {
+        int c=12;
+        if (!bananas.hanging) {
+            c=c-9;
+            if (!monkey.hold_stick) {
+                c--;
+            }
+            if (!monkey.on_chair) {
+                c--;
+            }
+            if (monkey.hold_bananas) {
+                c--;
+            }
+        }
+        else if (chair==bananas.location) {
             c=c-4;
-            if(monkey.hold_stick) {
+            if (monkey.hold_stick) {
                 c=c-2;
-                if(monkey.location==bananas.location) {
+                if (monkey.location == bananas.location) {
                     c--;
-                    if(monkey.hold_bananas) {
+                    if (monkey.on_chair) {
                         c--;
                     }
                 }
             }
         }
+        else if (monkey.location == chair) {
+            c--;
+            if (monkey.hold_chair) {
+                c=c-2;
+                if (monkey.location == bananas.location) {
+                    c--;
+                }
+            }
+        }
+        return c;
+    }*/
+    
+    int h () {
+        int c = 12;
+        c = c - 4 * (chair == bananas.location) - 4 * (stick == bananas.location) - 4 * monkey.hold_bananas;
         return c;
     }
 
