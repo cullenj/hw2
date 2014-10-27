@@ -22,7 +22,7 @@ int main(int argc, const char * argv[])
 {
     time_t begin;
     time_t end;
-    
+    /*
     //Domains
     WGC wgc;  //Wolf Goat Cabbage
     EQ eq;//Eight Queens
@@ -63,26 +63,33 @@ int main(int argc, const char * argv[])
     AstarbeamMB.search(mb);
     time(&end);
     cout << "\n\nRun Time: " << difftime(end,begin) << "\n";
+    */
     
     //Random Restart Hill Climbing
     Random_Restart<EQ> HCsearch;
-    int n=50;
-    int[] x = new int[n];
+    int n=80;
+    int avexpansions = 0;
+    long* x = new long[n];
+    long* y = new long[2];
     for (int i = 0; i < n; i++) {
-    x[i] = HCsearch.search();
+        y = HCsearch.search();
+        avexpansions += y[1];
+        x[i] = y[0];
     }
-    int mean=0;
+    long mean=0;
     double stddev=0;
     for (int j = 0; j < n; j++) {
         mean = mean + x[j];
     }
+    avexpansions = avexpansions / mean;
     mean = mean/n;
     for (int j = 0; j < n; j++) {
-        stddev = stddev + pow(2, x[j] - mean);
+        stddev = stddev + pow(x[j] - mean,2);
     }
     stddev = sqrt(stddev/n);
     cout << "The average number of iterations is " << mean << endl;
     cout << "And the standard deviation is " << stddev << endl;
+    cout << "And average number of expansions for both bad and good searches  " << avexpansions << endl;
    
     
     return 0;

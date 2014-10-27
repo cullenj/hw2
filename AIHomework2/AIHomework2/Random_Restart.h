@@ -10,6 +10,7 @@
 #define AIHomework2_Random_Restart_h
 
 #include "Hill_Climbing.h"
+#include <time.h>
 
 using namespace std;
 template <class T>
@@ -21,25 +22,36 @@ private:
 public:
     T problem;
     int n;
+    long q;
     
     Random_Restart() {
+        cout << "This is Random Restart Hill Climbing with domain " << problem.domain << endl << endl;
+        q = time(NULL);
     }
     
     ~Random_Restart() {
         
     }
     
-    int search() {
+    long* search() {
         n = 0;
-        bool over = false;
-        Hill_Climbing<T> searchalg;
-        while(!over) {
+        Hill_Climbing<T> *searchalg;
+        long * x = new long[2];
+        long * y = new long[2];
+        x[0] = -1;
+        while(x[0] == -1) {
+            q++;
+            searchalg = new Hill_Climbing<T>;
             n++;
-            problem.random();
-            over = searchalg.Search(problem);
+            cout << "Iteration " << n << endl;
+            problem.random(q);
+            x = searchalg->Search(problem);
+            y[1] += x[1];
         }
-        cout << "After " << n << " Iterations" << endl;
-        return n;
+        y[0] = n;
+        cout << "After " << n << " Iterations of Hill Climbing" << endl << endl;
+        
+        return y;
     }
     
     

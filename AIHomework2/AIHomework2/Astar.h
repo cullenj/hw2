@@ -48,6 +48,8 @@ private:
 public:
     
     Astar() {
+        T problem;
+        cout << "This is A* with domain " << problem.domain << endl << endl;
         over = false;
         nodeslookedat = 0;
     }

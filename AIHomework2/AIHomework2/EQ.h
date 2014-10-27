@@ -13,7 +13,6 @@
 #include <math.h>
 #include <vector>
 #include <list>
-#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -24,11 +23,10 @@ class EQ{
 public:
     vector<int> board;
     int n;
-    string domain = "EQ ";
+    string domain = "Eight Queens ";
     string action = "\n";
     
     EQ(){
-        srand(time(NULL));
         n=8;
         for(int i = 0; i < n; i++) {
             board.push_back(0);
@@ -40,7 +38,8 @@ public:
         n = 8;
     }
     
-    void random() {
+    void random(long x) {
+        srand(x);
         for(int i = 0; i < n; i++) {
             board[i] = rand() % 8;
         }

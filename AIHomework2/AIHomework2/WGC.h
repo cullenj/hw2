@@ -22,6 +22,7 @@ class WGC {
 public:
     vector<bool> items; //LEFT means on the left bank
     string action;
+    string domain = "Wolf Goat & Cabbage ";
     bool LEFT = false;
     bool RIGHT = true;
     

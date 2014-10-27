@@ -33,13 +33,12 @@ public:
         unsigned location;
     };
     
+    string domain = "Monkey & Bananas ";
     unsigned chair;
     unsigned stick;
 
     animal monkey = *new animal();
     fruit bananas = *new fruit();
-    
-    string domain="MB ";
     string action;
     
     MB()

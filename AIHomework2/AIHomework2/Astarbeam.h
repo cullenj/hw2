@@ -43,6 +43,8 @@ private:
 public:
     
     Astarbeam() {
+        T problem;
+        cout << "This is A* Beam Search with domain " << problem.domain << endl << endl;
         HUpperBound = 0;
         over = false;
         nodeslookedat = 0;
@@ -72,6 +74,7 @@ public:
     
     int expand() {
         if(fringe.empty()) {
+            cout << 
             over = true;
             return -1;
         }

@@ -18,16 +18,27 @@ class Hill_Climbing{
     
 public:
     
-    T problem;
     T previous;
+    long* x;
+    long nodeslookedat;
     
-    Hill_Climbing(){ }
+    Hill_Climbing(){
+        T temp;
+        nodeslookedat = 0;
+        x = new long[2];
+        cout << "This is Hill Climbing with domain " << temp.domain << endl << endl;
+    }
 
-    bool Search(T problem){
+    long* Search(T problem){
+        
+        nodeslookedat++;
+        
         if (problem.h()==0) {
             cout << "Solution Found: " << endl;
             problem.print();
-            return true;
+            x[0] = 1;
+            x[1] = nodeslookedat;
+            return x;
         }
     
         T best = problem.successors()[0];
@@ -39,7 +50,10 @@ public:
         }
         
         if (previous == best) {
-            return false;
+            best.print();
+            x[0] = -1;
+            x[1] = nodeslookedat;
+            return x;
         }
         
         cout << "Best successor is: " << endl;
