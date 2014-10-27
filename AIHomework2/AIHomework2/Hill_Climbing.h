@@ -28,6 +28,10 @@ public:
         x = new long[2];
         cout << "This is Hill Climbing with domain " << temp.domain << endl << endl;
     }
+    
+    void resetcount() {
+        nodeslookedat = 0;
+    }
 
     long* Search(T problem){
         

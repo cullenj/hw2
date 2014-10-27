@@ -22,7 +22,7 @@ int main(int argc, const char * argv[])
 {
     time_t begin;
     time_t end;
-    /*
+    
     //Domains
     WGC wgc;  //Wolf Goat Cabbage
     EQ eq;//Eight Queens
@@ -34,14 +34,28 @@ int main(int argc, const char * argv[])
     Astar<MB> AstarMB;
     
     time(&begin);
+    wgc.seth(false);
+    AstarWGC.search(wgc);
+    wgc.seth(true);
+    AstarWGC.reset();
     AstarWGC.search(wgc);
     time(&end);
     cout << "\n\nRun Time: " << difftime(end,begin) << "\n";
+    
     time(&begin);
+    eq.seth(false);
+    AstarEQ.search(eq);
+    eq.seth(true);
+    AstarEQ.reset();
     AstarEQ.search(eq);
     time(&end);
     cout << "\n\nRun Time: " << difftime(end,begin) << "\n";
+    
     time(&begin);
+    mb.seth(false);
+    AstarMB.search(mb);
+    mb.seth(true);
+    AstarMB.reset();
     AstarMB.search(mb);
     time(&end);
     cout << "\n\nRun Time: " << difftime(end,begin) << "\n";
@@ -50,24 +64,39 @@ int main(int argc, const char * argv[])
     Astarbeam<WGC> AstarbeamWGC;
     Astarbeam<EQ> AstarbeamEQ;
     Astarbeam<MB> AstarbeamMB;
+    AstarbeamWGC.setbeamwidth(3);
+    AstarbeamEQ.setbeamwidth(4);
+    AstarbeamMB.setbeamwidth(4);
     
     time(&begin);
+    wgc.seth(false);
+    AstarbeamWGC.search(wgc);
+    wgc.seth(true);
+    AstarbeamWGC.reset();
     AstarbeamWGC.search(wgc);
     time(&end);
     cout << "\n\nRun Time: " << difftime(end,begin) << "\n";
     time(&begin);
+    eq.seth(false);
+    AstarbeamEQ.search(eq);
+    eq.seth(true);
+    AstarbeamEQ.reset();
     AstarbeamEQ.search(eq);
     time(&end);
     cout << "\n\nRun Time: " << difftime(end,begin) << "\n";
     time(&begin);
+    mb.seth(false);
+    AstarbeamMB.search(mb);
+    mb.seth(true);
+    AstarbeamMB.reset();
     AstarbeamMB.search(mb);
     time(&end);
     cout << "\n\nRun Time: " << difftime(end,begin) << "\n";
-    */
+    
     
     //Random Restart Hill Climbing
     Random_Restart<EQ> HCsearch;
-    int n=80;
+    int n=50;
     int avexpansions = 0;
     long* x = new long[n];
     long* y = new long[2];
@@ -87,9 +116,9 @@ int main(int argc, const char * argv[])
         stddev = stddev + pow(x[j] - mean,2);
     }
     stddev = sqrt(stddev/n);
-    cout << "The average number of iterations is " << mean << endl;
+    cout << "The average number of calls to Hill Climbing is " << mean << endl;
     cout << "And the standard deviation is " << stddev << endl;
-    cout << "And average number of expansions for both bad and good searches  " << avexpansions << endl;
+    cout << "And average number of expansions for both successful and unsuccessful Hill Climbing searches  " << avexpansions << endl;
    
     
     return 0;

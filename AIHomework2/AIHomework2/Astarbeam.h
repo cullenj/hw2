@@ -28,7 +28,6 @@ private:
         Node() {  }
         Node(T& x) {
             state = x;
-            //x.print();
             h = x.h();
         }
     };
@@ -43,8 +42,6 @@ private:
 public:
     
     Astarbeam() {
-        T problem;
-        cout << "This is A* Beam Search with domain " << problem.domain << endl << endl;
         HUpperBound = 0;
         over = false;
         nodeslookedat = 0;
@@ -59,7 +56,18 @@ public:
         beamwidth = x;
     }
     
+    void reset() {
+        over = false;
+        nodeslookedat = 0;
+        HUpperBound = 0;
+        explored.clear();
+        while(!fringe.empty()) {
+            fringe.pop_back();
+        }
+    }
+    
     void search(T problem) {
+        cout << "This is A* Beam Search with domain " << problem.domain << endl << endl;
         Node start = Node(problem);
         start.parent = &start;
         start.g = 0;
@@ -74,7 +82,8 @@ public:
     
     int expand() {
         if(fringe.empty()) {
-            cout << 
+            cout << "No solution found " << endl << endl;
+            cout << "Number of nodes expanded: " << nodeslookedat << "\n";
             over = true;
             return -1;
         }
@@ -85,6 +94,7 @@ public:
         
         else {
             Node* mostpromising = getcurrentbest();
+            mostpromising->state.print();
             
             if(mostpromising->h == 0) {
                 over = true;
@@ -112,29 +122,33 @@ public:
     bool valid(int f) {
         if (fringe.size() < beamwidth) {
             if (f > fringe[HUpperBound].h + fringe[HUpperBound].g) {
-                HUpperBound = (int) fringe.size() - 1;
+                setnewUpperBound(f);
             }
             return true;
         }
         else if(f < fringe[HUpperBound].h + fringe[HUpperBound].g) {
             fringe.erase( fringe.begin() + HUpperBound );
-            HUpperBound = 0;
-            for(int i = 0; i < fringe.size(); i++) {
-                if (fringe[i].h + fringe[i].g > fringe[HUpperBound].h + fringe[HUpperBound].g)
-                    HUpperBound = i;
-            }
-            if (f > fringe[HUpperBound].h + fringe[HUpperBound].g)
-                HUpperBound = (int) fringe.size();
+            setnewUpperBound(f);
             return true;
         }
         else
             return false;
     }
     
+    void setnewUpperBound(int f) {
+        HUpperBound = 0;
+        for(int i = 0; i < fringe.size(); i++) {
+            if (fringe[i].h + fringe[i].g > fringe[HUpperBound].h + fringe[HUpperBound].g)
+                HUpperBound = i;
+        }
+        if (f > fringe[HUpperBound].h + fringe[HUpperBound].g)
+            HUpperBound = (int) fringe.size();
+    }
+    
     Node* getcurrentbest() {
         int currentlowest = 0;
         for(int i = 0; i < fringe.size(); i++) {
-            if (fringe[i].h < fringe[currentlowest].h)
+            if (fringe[i].h + fringe[i].g < fringe[currentlowest].h + fringe[currentlowest].g)
                 currentlowest = i;
         }
         Node* best = new Node(fringe[currentlowest].state);
@@ -148,7 +162,7 @@ public:
         cout << "Solution Found!\n";
         cout << "Number of nodes expanded: " << nodeslookedat << "\n";
         list<T> solutionpath;
-        while(solution->parent != solution) {
+        while(solution->parent->state != solution->state) {
             solutionpath.push_front(solution->state);
             solution = solution->parent;
         }

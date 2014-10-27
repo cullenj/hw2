@@ -48,8 +48,6 @@ private:
 public:
     
     Astar() {
-        T problem;
-        cout << "This is A* with domain " << problem.domain << endl << endl;
         over = false;
         nodeslookedat = 0;
     }
@@ -58,7 +56,17 @@ public:
         
     }
     
+    void reset() {
+        over = false;
+        nodeslookedat = 0;
+        explored.clear();
+        while(!fringe.empty()) {
+            fringe.pop();
+        }
+    }
+    
     void search(T problem) {
+        cout << "This is A* with domain " << problem.domain << endl << endl;
         Node start = Node(problem);
         start.parent = &start;
         start.g = 0;

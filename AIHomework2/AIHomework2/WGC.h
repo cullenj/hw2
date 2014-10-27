@@ -25,6 +25,7 @@ public:
     string domain = "Wolf Goat & Cabbage ";
     bool LEFT = false;
     bool RIGHT = true;
+    bool whichh = false;
     
     WGC(){
         items.push_back(LEFT);  //wolf is on left bank
@@ -34,12 +35,17 @@ public:
         action="start: ";
     }
     
-    WGC(bool w,bool g, bool c, bool b, string act){
+    WGC(bool w,bool g, bool c, bool b, string act, bool h){
         items.push_back(w);
         items.push_back(g);
         items.push_back(c);
         items.push_back(b);
         action=act;
+        whichh = h;
+    }
+    
+    void seth(bool b) {
+        whichh = b;
     }
     
     bool operator==(const WGC& other){
@@ -65,15 +71,15 @@ public:
         if(valid()) {
         //move wolf
             if (b == w)
-                successors.push_back(WGC(!w,g,c,!b,"move wolf "));
+                successors.push_back(WGC(!w,g,c,!b,"move wolf ",whichh));
         //move goat
             if (b == g)
-                successors.push_back(WGC(w,!g,c,!b,"move goat "));
+                successors.push_back(WGC(w,!g,c,!b,"move goat ",whichh));
         //move cabbage
             if (b == c)
-                successors.push_back(WGC(w,g,!c,!b,"move cabbage "));
+                successors.push_back(WGC(w,g,!c,!b,"move cabbage ",whichh));
         //move boat
-        successors.push_back(WGC(w,g,c,!b,"move boat "));
+        successors.push_back(WGC(w,g,c,!b,"move boat ",whichh));
         }
         return successors;
     }
@@ -81,8 +87,8 @@ public:
     void print(){
         cout << "wolf is at "<< items[0] << endl;
         cout << "goat is at "<< items[1] << endl;
-        cout << "cabbage is at "<< items[2] << endl << endl;
-        
+        cout << "cabbage is at "<< items[2] << endl;
+        cout << "boat is at "<< items[3] << endl << endl;
     }
     
     void solution(list<WGC> path) {
@@ -107,25 +113,24 @@ public:
         }
         return true;
     }
-    
-    /*
-    int h(){
-        bool w=items[0];
-        bool g=items[1];
-        bool c=items[2];
-        return !w+!g+!c;
-    }*/
-    
-    
+
     int h() {
-        bool w=items[0];
-        bool g=items[1];
-        bool c=items[2];
-        if ((w && !g && !c)||(!w && !g && c)) {
-            return 1;
+        if(whichh) {
+            bool w=items[0];
+            bool g=items[1];
+            bool c=items[2];
+            if ((w && !g && !c)||(!w && !g && c)) {
+                return 1;
+            }
+            else
+                return 2*!w + !g + 2*!c;
         }
-        else
-            return 2*!w + !g + 2*!c;
+        else {
+            bool w=items[0];
+            bool g=items[1];
+            bool c=items[2];
+            return !w+!g+!c;
+        }
     }
     /*
     int h() {

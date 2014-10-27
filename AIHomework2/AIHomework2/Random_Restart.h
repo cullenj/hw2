@@ -21,8 +21,9 @@ private:
     
 public:
     T problem;
-    int n;
     long q;
+    long* y;
+    long* x;
     
     Random_Restart() {
         cout << "This is Random Restart Hill Climbing with domain " << problem.domain << endl << endl;
@@ -34,22 +35,24 @@ public:
     }
     
     long* search() {
-        n = 0;
-        Hill_Climbing<T> *searchalg;
-        long * x = new long[2];
-        long * y = new long[2];
+        Hill_Climbing<T> searchalg;
+        x = new long[2];
+        y = new long[2];
         x[0] = -1;
+        y[0] = 0;
+        y[1] = 0;
         while(x[0] == -1) {
+            searchalg.resetcount();
             q++;
-            searchalg = new Hill_Climbing<T>;
-            n++;
-            cout << "Iteration " << n << endl;
+            y[0] = y[0] + 1;
+            cout << "Iteration " << y[0] << endl;
             problem.random(q);
-            x = searchalg->Search(problem);
+            x = searchalg.Search(problem);
             y[1] += x[1];
         }
-        y[0] = n;
-        cout << "After " << n << " Iterations of Hill Climbing" << endl << endl;
+        cout << "After " << y[0] << " Iterations of Hill Climbing" << endl << endl;
+        
+        cout << "Total number of expansions " << y[1] << endl << endl;
         
         return y;
     }

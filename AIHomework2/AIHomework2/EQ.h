@@ -25,6 +25,7 @@ public:
     int n;
     string domain = "Eight Queens ";
     string action = "\n";
+    bool whichh = false;
     
     EQ(){
         n=8;
@@ -33,9 +34,14 @@ public:
         }
     }
     
-    EQ(vector<int> b) {
+    EQ(vector<int> b, bool h) {
         board = b;
         n = 8;
+        whichh = h;
+    }
+    
+    void seth(bool b) {
+        whichh = b;
     }
     
     void random(long x) {
@@ -79,7 +85,7 @@ public:
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < n; j++) {
                 if(board[i] != j) {
-                    successor = EQ(board);
+                    successor = EQ(board,whichh);
                     successor.move(i,j);
                     successors.push_back(successor);
                 }
@@ -132,12 +138,29 @@ public:
         return x;
     }
     
+    int altcollisions() {
+        int x = 0;
+        for (int i=0; i < n;i++){
+            for (int k=i+1; k < n;k++){
+                if(k != i) {
+                    if (board[i] == board[k]) {x++;} //same row?
+                    else if ((board[k] - k) == (board[i] - i)) {x++;} //down diagonal?
+                    else if ( board[k] - board[i] == i - k ) {x++;} //up diagonal?
+                }
+            }
+        }
+        return x;
+    }
+    
     int cost() {
         return 0;
     }
     
     int h() {
-        return collisions();
+        if(whichh)
+            return collisions();
+        else
+            return altcollisions();
     }
     
     
