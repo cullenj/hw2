@@ -20,9 +20,6 @@ using namespace std;
 
 int main(int argc, const char * argv[])
 {
-    time_t begin;
-    time_t end;
-    
     //Domains
     WGC wgc;  //Wolf Goat Cabbage
     EQ eq;//Eight Queens
@@ -33,32 +30,19 @@ int main(int argc, const char * argv[])
     Astar<EQ> AstarEQ;
     Astar<MB> AstarMB;
     
-    time(&begin);
+
     wgc.seth(false);
     AstarWGC.search(wgc);
     wgc.seth(true);
     AstarWGC.reset();
     AstarWGC.search(wgc);
-    time(&end);
-    cout << "\n\nRun Time: " << difftime(end,begin) << "\n";
     
-    time(&begin);
-    eq.seth(false);
-    AstarEQ.search(eq);
-    eq.seth(true);
-    AstarEQ.reset();
-    AstarEQ.search(eq);
-    time(&end);
-    cout << "\n\nRun Time: " << difftime(end,begin) << "\n";
-    
-    time(&begin);
+   
     mb.seth(false);
     AstarMB.search(mb);
     mb.seth(true);
     AstarMB.reset();
     AstarMB.search(mb);
-    time(&end);
-    cout << "\n\nRun Time: " << difftime(end,begin) << "\n";
     
     //A* beam search
     Astarbeam<WGC> AstarbeamWGC;
@@ -68,30 +52,19 @@ int main(int argc, const char * argv[])
     AstarbeamEQ.setbeamwidth(4);
     AstarbeamMB.setbeamwidth(4);
     
-    time(&begin);
+    
     wgc.seth(false);
     AstarbeamWGC.search(wgc);
     wgc.seth(true);
     AstarbeamWGC.reset();
     AstarbeamWGC.search(wgc);
-    time(&end);
-    cout << "\n\nRun Time: " << difftime(end,begin) << "\n";
-    time(&begin);
-    eq.seth(false);
-    AstarbeamEQ.search(eq);
-    eq.seth(true);
-    AstarbeamEQ.reset();
-    AstarbeamEQ.search(eq);
-    time(&end);
-    cout << "\n\nRun Time: " << difftime(end,begin) << "\n";
-    time(&begin);
+    
+    
     mb.seth(false);
     AstarbeamMB.search(mb);
     mb.seth(true);
     AstarbeamMB.reset();
     AstarbeamMB.search(mb);
-    time(&end);
-    cout << "\n\nRun Time: " << difftime(end,begin) << "\n";
     
     
     //Random Restart Hill Climbing
@@ -120,6 +93,21 @@ int main(int argc, const char * argv[])
     cout << "And the standard deviation is " << stddev << endl;
     cout << "And average number of expansions for both successful and unsuccessful Hill Climbing searches  " << avexpansions << endl;
    
+    
+    eq.seth(false);
+    AstarEQ.search(eq);
+    eq.seth(true);
+    AstarEQ.reset();
+    AstarEQ.search(eq);
+    
+    
+    eq.seth(false);
+    AstarbeamEQ.search(eq);
+    eq.seth(true);
+    AstarbeamEQ.reset();
+    AstarbeamEQ.search(eq);
+    
+    
     
     return 0;
 }
